@@ -3,6 +3,7 @@ package autsp
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
+import java.sql.ResultSet
 
 /** Para manejar la conexión con base de datos
   * 
@@ -11,6 +12,7 @@ import java.sql.SQLException
   */
 class Conexion(driver: String, url: String) {
   var conn: Connection = null
+  var resultSet: ResultSet = null
   //  val driver: String = "org.sqlite.JDBC"
   //val url: String = "jdbc:sqlite:hi.db"
 
@@ -24,6 +26,7 @@ class Conexion(driver: String, url: String) {
   }
 
   def printAll(){
+    abre()
     if (conn == null){
       println("La conexión no ha sido establecida")
       return
@@ -36,6 +39,7 @@ class Conexion(driver: String, url: String) {
       println("City name "+counter+": " + name)
       counter += 1
     }
+    cierra()
   }
 
   def cierra(){
@@ -45,4 +49,19 @@ class Conexion(driver: String, url: String) {
     }
   }
 
+  def setResults(q: String) {
+    abre()
+    val statement = conn.createStatement()
+    resultSet = statement.executeQuery(q)
+    cierra()
+  }
+
+  def getRowFromResults(): (Int,Int,Double) = {
+    if(!resultSet.next())
+      return null
+    var id1 = resultSet.getInt("id_city_1")
+    var id2 = resultSet.getInt("id_city_2")
+    var d = resultSet.getInt("distance")
+    return (id1,id2,d)
+  }
 }
