@@ -7,6 +7,7 @@ trait RecocidoSimulado{
   val cTerminacion: CondicionDeTerminacion
   val epsilon: Double
   val vZero: Double
+  val genVer: GeneradorVerificador
 
 
   def calculaLote(): (Double, Solucion) ={
@@ -14,16 +15,16 @@ trait RecocidoSimulado{
     var c = 0
     var r = 0.0
     while(c < lote.carga && cTerminacion.continua) {
-      var sVecina: Solucion = sActual.vecino()
+      var sVecina: Solucion = genVer.vecino(sActual.valor)
       if(sVecina <= sActual){
-        lote.add(sActual)
+        lote.add()
         sActual = sVecina
         c += 1
         r += sVecina.fitness
       } else
           cTerminacion.progress()
     }
-    return (r/lote.soluciones.size(),lote.ultima())
+    return (r/lote.soluciones,sActual)
   }
 
   def run()

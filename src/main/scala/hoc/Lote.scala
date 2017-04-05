@@ -2,17 +2,12 @@ package hoc
 
 import java.util.{ArrayList => List}
 trait Lote{
-  var soluciones: List[Solucion]
+  var soluciones: Int = 0
   val carga: Int
 
-  def add(s: Solucion){
-    if(carga < soluciones.size())
+  def add(){
+    if(carga < soluciones)
       return
-    soluciones.add(s)
+    soluciones += 1
   }
-
-  def ultima(): Solucion = {
-    return soluciones.get(soluciones.size()-1)
-  }
-
 }

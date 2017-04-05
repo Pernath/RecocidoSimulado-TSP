@@ -7,16 +7,7 @@ import hoc.Solucion
   * @param largo el tamaño del camino
   * @param evaluacion del camino
   */
-class Camino(val valor: Array[Int], val fitfun: FuncionDeCosto) extends Solucion{
-  factible = factibilidad()
-  fitness = fitfun.eval(this)
-
-  def factibilidad(): Boolean = {
-    return true
-  }
-  
-  def vecino(): Solucion = {
-    return this
-  }
-
+class Camino(val valor: Array[Int], val fitness: Double) extends Solucion{
+  //factible = factibilidad()
+  //fitness = fitfun.eval(this)
 }

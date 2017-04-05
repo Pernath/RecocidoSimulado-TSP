@@ -9,7 +9,7 @@ import hoc.Solucion
   */
 
 class FuncionDeCosto(val tsp: TSPInstance) extends FitFun{
-  def eval(s: Solucion): Double = {
+  def eval(s: Array[Int]): Double = {
     return 0.0
   }
 }

@@ -3,7 +3,7 @@ package autsp
 import hoc._
 import hoc.{Temperatura => Temp}
 
-class AceptacionPorUmbrales(var temperatura: Temp, var lote: Lote, var sActual: Solucion, val cTerminacion: CondicionDeTerminacion, val epsilon: Double, val vZero: Double) extends RecocidoSimulado{
+class AceptacionPorUmbrales(var temperatura: Temp, var lote: Lote, var sActual: Solucion, val cTerminacion: CondicionDeTerminacion, val epsilon: Double, val vZero: Double, val genVer: GeneradorVerificador) extends RecocidoSimulado{
 
   def run(){
     var p: Double = -1
