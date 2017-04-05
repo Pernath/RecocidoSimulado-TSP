@@ -1,5 +1,5 @@
 package hoc
 
 trait FitFun{ 
-  def eval(valor: Array[Int]): Double
+  def eval(s: Solucion): Double
 }

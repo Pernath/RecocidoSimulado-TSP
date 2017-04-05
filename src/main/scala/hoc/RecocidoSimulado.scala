@@ -1,6 +1,6 @@
 package hoc
 
-trait Recocido{
+trait RecocidoSimulado{
   var temperatura: Temperatura
   var lote: Lote
   var sActual: Solucion
@@ -9,7 +9,8 @@ trait Recocido{
   val vZero: Double
 
 
-  def calculaLote(){
+  def calculaLote(): (Double, Solucion) ={
+//  def calculaLote(){
     var c = 0
     var r = 0.0
     while(c < lote.carga && cTerminacion.continua) {
@@ -22,6 +23,7 @@ trait Recocido{
       } else
           cTerminacion.progress()
     }
+    return (r/lote.soluciones.size(),lote.ultima())
   }
 
   def run()

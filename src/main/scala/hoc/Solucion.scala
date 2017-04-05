@@ -1,10 +1,11 @@
 package hoc
 
 trait Solucion extends Ordered[Solucion]{
-  var fitness: Double
+  var fitness: Double = 0
   val valor: Array[Int]
+  var factible: Boolean = false
 
-  def vecino(): Solucion = {return this}
+  def vecino(): Solucion
 
   override def equals(solucion: Any): Boolean = {
     solucion match {
