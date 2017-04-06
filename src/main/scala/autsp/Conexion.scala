@@ -53,7 +53,7 @@ class Conexion(driver: String, url: String) {
     abre()
     val statement = conn.createStatement()
     resultSet = statement.executeQuery(q)
-    cierra()
+    //cierra()
   }
 
   def getRowFromResults(): (Int,Int,Double) = {

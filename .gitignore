@@ -2,5 +2,7 @@
 #*#
 target/
 boot/
+lib_managed/
+staging/
 
 

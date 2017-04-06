@@ -8,6 +8,4 @@ import hoc.Solucion
   * @param evaluacion del camino
   */
 class Camino(val valor: Array[Int], val fitness: Double) extends Solucion{
-  //factible = factibilidad()
-  //fitness = fitfun.eval(this)
 }

@@ -13,8 +13,12 @@ trait GeneradorVerificador{
   //debe salir ya evaluada
   def randomSol(): Solucion
 
-  def factibilidad(s:Solucion): Boolean = {
-    return true
+  def factible(s:Solucion): Boolean = {
+    return func.factible(s.valor)
+  }
+
+  def desconexiones(s: Solucion): Int = {
+    return func.desconexiones(s.valor)
   }
 
 
