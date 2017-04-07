@@ -13,7 +13,8 @@ class FuncionDeCosto(val tsp: TSPInstance, val constante: Double) extends FitFun
     var suma = 0.0
     for (i <- 0 to s.size-2)
       suma += distancia(s(i),s(i+1))
-    return suma/tsp.promedio*s.size
+    //return suma/tsp.promedio*(s.size)
+    return suma/(tsp.promedio*(s.size-1))
   }
 
   def distancia(id1: Int, id2: Int): Double = {
@@ -33,7 +34,7 @@ class FuncionDeCosto(val tsp: TSPInstance, val constante: Double) extends FitFun
   def desconexiones(s: Array[Int]): Int = {
     var out = 0
     for(i <- 0 to s.length-2)
-      if(tsp.distancia(s(i),s(i+1)) <= 0)
+      if(tsp.distancia(s(i),s(i+1)) == 0)
         out += 1
     return out
   }

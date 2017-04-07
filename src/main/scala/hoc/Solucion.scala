@@ -1,8 +1,8 @@
 package hoc
 
 trait Solucion extends Ordered[Solucion]{
-  val fitness: Double
-  val valor: Array[Int]
+  var fitness: Double
+  var valor: Array[Int]
 
   def getValor(): Array[Int] = {
     return valor.clone

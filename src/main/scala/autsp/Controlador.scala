@@ -33,6 +33,7 @@ class Controlador(var lista: List[Int]){
     println("MAXIMA DISTANCIA: "+maxD)
     println("AVG: "+total/edges)
     tsp = new TSPInstance(matriz,maxD,total/lista.size)
+    //tsp = new TSPInstance(matriz,maxD,total/edges)
   }
 
   def inside(l: List[Int],i: Int): Boolean = {
@@ -51,19 +52,31 @@ class Controlador(var lista: List[Int]){
   }
 
   def exec(){
-    var temperatura = new Temperatura(1000000,0.1)
-    var lote = new Lote(500)
-    val fun = new FuncionDeCosto(tsp,10)
-    var genVer = new GenVer(12,23,fun, lista)
-    var maxFail = new MaximoFallidos(1000)
-    var epsilon = 0.2
-    var vZero = 0.1
-
-    val inicial = genVer.randomSol
-    println("INICIAL: "+inicial + " fitness: "+inicial.fitness)
-    val autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, epsilon, vZero, genVer)
-    autsp.run
-
-  }
-
+    for(i <- 0 to 10000){
+      var temperatura = new Temperatura(4,0.9)
+      var lote = new Lote(500)
+      val fun = new FuncionDeCosto(tsp,5)
+      //var genVer = new GenVer(3,3,fun, lista)
+      var maxFail = new MaximoFallidos(500*50)
+      var epsilon = 0.01
+      var vZero = 0.01 //epsilon p
+      var genVer = new GenVer(i,i,fun,lista)
+      var inicial = genVer.randomSol
+      //var inicial = genVer.instanceSol
+      //for(i <- 0 to 10)
+      // inicial = genVer.vecino(inicial.getValor)
+      //println("INICIAL: "+inicial + " fitness: "+inicial.fitness)
+      var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, epsilon, vZero, genVer)
+      autsp.run
+      val factible = genVer.factible(autsp.mejorS)
+      println("Semilla: "+i)
+      println("fitness: "+autsp.mejorS.fitness)
+      println("Factibilidad: "+factible)
+      println("Desconexiones: "+genVer.desconexiones(autsp.mejorS)+"\n")
+      if(factible){
+        println(autsp.mejorS)
+        return
+      }
+    }
+  }    
 }
