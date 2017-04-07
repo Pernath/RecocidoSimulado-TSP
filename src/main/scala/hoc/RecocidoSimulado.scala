@@ -12,25 +12,21 @@ trait RecocidoSimulado{
 
 
   def calculaLote(): (Double, Solucion) ={
-//  def calculaLote(){
+
     var c = 0
     var r = 0.0
     while(c < lote.carga && cTerminacion.continua) {
       var sVecina: Solucion = genVer.vecino(sActual.getValor)
-      //println("Actual: " + sActual.fitness)      
 
       if(sVecina.fitness <= sActual.fitness + temperatura.temperatura){
-        //println("Mejorando: " + sVecina.fitness)
         lote.add()
         sActual = sVecina
         if(sActual.fitness < mejorS.fitness){
           mejorS.valor = sActual.getValor
-          mejorS.fitness = genVer.evalua(mejorS.getValor)
+          mejorS.fitness = genVer.evalua(mejorS.valor)
         }
         c += 1
         r += sVecina.fitness
-        /*println("Solución actual: "+sActual)
-        println("Factibilidad: "+genVer.factible(sActual))*/
       } else
           cTerminacion.progress()
     }

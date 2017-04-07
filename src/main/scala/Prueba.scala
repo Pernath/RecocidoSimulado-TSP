@@ -14,6 +14,13 @@ object Prueba {
     //val l = List(1,2,7,14,26,27,29,31,33)
     val cont = new Controlador(l)
     cont.genInstance()
-    cont.exec()
+    var s = args(0).toInt
+    var t = args(1).toDouble
+    var phi = args(2).toDouble
+    var lote = args(3).toInt
+    var e = args(4).toDouble
+    var v = args(5).toDouble
+    var c = args(6).toDouble
+    cont.exec(s,t,phi,lote,e,v,c)
   }
 }

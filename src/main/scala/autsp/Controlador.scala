@@ -32,8 +32,8 @@ class Controlador(var lista: List[Int]){
     conexion.cierra()
     println("MAXIMA DISTANCIA: "+maxD)
     println("AVG: "+total/edges)
-    tsp = new TSPInstance(matriz,maxD,total/lista.size)
-    //tsp = new TSPInstance(matriz,maxD,total/edges)
+    //tsp = new TSPInstance(matriz,maxD,total/lista.size)
+    tsp = new TSPInstance(matriz,maxD,total/edges)
   }
 
   def inside(l: List[Int],i: Int): Boolean = {
@@ -51,31 +51,35 @@ class Controlador(var lista: List[Int]){
       return inside(l.slice(idx+1,l.size),i)
   }
 
-  def exec(){
-    for(i <- 0 to 10000){
-      var temperatura = new Temperatura(4,0.9)
-      var lote = new Lote(500)
-      val fun = new FuncionDeCosto(tsp,5)
+  def exec(s: Int, t:Double, phi: Double, lot: Int, e: Double, v: Double, c: Double){
+    for(i <- 0 to 100){
+      var temperatura = new Temperatura(t,phi)
+      var lote = new Lote(lot)
+      val fun = new FuncionDeCosto(tsp,c)
       //var genVer = new GenVer(3,3,fun, lista)
-      var maxFail = new MaximoFallidos(500*50)
-      var epsilon = 0.01
-      var vZero = 0.01 //epsilon p
-      var genVer = new GenVer(i,i,fun,lista)
-      var inicial = genVer.randomSol
-      //var inicial = genVer.instanceSol
-      //for(i <- 0 to 10)
-      // inicial = genVer.vecino(inicial.getValor)
+      var maxFail = new MaximoFallidos(lot*lot)
+      var epsilon = e
+      var vZero = v //epsilon p
+      var genVer:GenVer = null
+      if(s == -1)
+        genVer = new GenVer(i,i,fun,lista)
+      else
+        genVer = new GenVer(s,s,fun,lista)
+      //var inicial = genVer.randomSol
+      var inicial = genVer.instanceSol
+      for(i <- 0 to 10)
+        inicial = genVer.vecino(inicial.getValor)
       //println("INICIAL: "+inicial + " fitness: "+inicial.fitness)
       var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, epsilon, vZero, genVer)
       autsp.run
       val factible = genVer.factible(autsp.mejorS)
-      println("Semilla: "+i)
+      println("Semilla: "+genVer.seedN)
       println("fitness: "+autsp.mejorS.fitness)
       println("Factibilidad: "+factible)
       println("Desconexiones: "+genVer.desconexiones(autsp.mejorS)+"\n")
       if(factible){
         println(autsp.mejorS)
-        return
+        //return
       }
     }
   }    
