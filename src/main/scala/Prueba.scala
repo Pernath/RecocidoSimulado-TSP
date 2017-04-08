@@ -1,26 +1,59 @@
-import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
+import java.io.{FileNotFoundException, IOException}
+import scala.io.Source
 import autsp._
 
-object Prueba {  
-  def main(args: Array[String]): Unit = {    
-    println("Pequeña prueba...")
-    //val conexion = new Conexion("org.sqlite.JDBC","jdbc:sqlite:hi.db")
-    //conexion.abre()
-    //conexion.printAll()
-    //conexion.cierra()
-    val l = List(1, 5, 9, 12, 16, 22, 23, 29, 30, 31, 39, 48, 52, 56, 58, 62, 65, 66, 70, 75, 80, 84, 86, 90, 92, 94, 95, 101, 107, 117, 119, 122, 133, 135, 143, 144, 146, 147, 150, 158, 159, 160, 166, 167, 176, 178, 179, 185, 186, 188, 190, 191, 194, 198, 200, 203, 207, 209, 213, 215, 216, 220, 221, 224, 227, 232, 233, 235, 238, 241, 244, 248, 250, 254, 264, 266, 274, 276)
-    //val l = List(1,2,7,14,26,27,29,31,33)
-    val cont = new Controlador(l)
-    cont.genInstance()
-    var s = args(0).toInt
-    var t = args(1).toDouble
-    var phi = args(2).toDouble
-    var lote = args(3).toInt
-    var e = args(4).toDouble
-    var v = args(5).toDouble
-    var c = args(6).toDouble
-    cont.exec(s,t,phi,lote,e,v,c)
+object Prueba {
+  val help = "Modo de empleo: <run> <archivo>"
+  val bienvenida = "\n\n| Heurísticas de optimización combinatoria  |\n|\t\tProyecto 1\t\t    |\n|\t     Semestre 2017-2\t\t    |\n|\tFacultad de Ciencias UNAM\t    |\n| Autor: Carlos Gerardo Acosta Hernández    |\n\n"
+  val fileHelp = ""
+  var tupleConf: (List[Int], List[Double]) = null
+
+  def conf(filename: String) {
+    try{
+      val file = Source.fromFile(filename)
+      var tuple = pars(file)
+      tupleConf = tuple
+    }
+    catch{
+      case ex: FileNotFoundException =>
+        println("No se encuentra el archivo de configuración "+filename)
+      case iox: IOException =>
+        println("No se puede leer el archivo "+filename)
+      case df: Exception =>
+        println("Error en el formato del archivo.")
+    }
+  }
+
+  def pars(file: Source): (List[Int], List[Double]) = {
+    val iter = file.getLines()
+    val tsp = iter.next().split(",").map(_.toInt).toList
+    val params = iter.next().split(",").map(_.toDouble).toList
+    return (tsp,params)
+  }
+
+  def main(args: Array[String]): Unit = {      
+
+    if(args.length < 1){
+      println(bienvenida+help)
+      return
+    }   
+
+    conf(args(0))//establecemos los datos del archivo de config
+
+    if(tupleConf == null || tupleConf._2.size < 7){
+      println(tupleConf == null)
+      println("Error en el archivo de configuración."+fileHelp)
+      return
+    }
+    val cont = new Controlador(tupleConf._1)    
+    var l = tupleConf._2
+    var s = l(0).toInt
+    var t = l(1)
+    var phi = l(2)
+    var lote = l(3).toInt
+    var e = l(4)
+    var v = l(5)
+    var c = l(6)
+    cont.exec(s,t,phi,lote,e,v,c)    
   }
 }
