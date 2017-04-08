@@ -14,9 +14,8 @@ import scala.collection.mutable.ListBuffer
   */
 class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[Int]) extends GV{
   //Inicialización de los PRNG
-  val r = new Random(seedN)
-  val s = new Random(seedI)
-
+  val r = new Random(seedN) /** Inicialización del RNG con la semilla*/
+  val s = new Random(seedI) /** Inicialización del RNG con la semilla*/
 
   def vecino(s: Array[Int]): Solucion = {
     var idx = r.nextInt(s.length)
@@ -28,8 +27,6 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
     s(idx2) = temp
     return new Camino(s,evalua(s))
   }
-
-
 
   def randomSol(): Solucion = {
     var toTake = new ListBuffer[Int]()

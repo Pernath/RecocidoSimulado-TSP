@@ -3,12 +3,15 @@ package autsp
 import hoc.FitFun
 import hoc.Solucion
 
-/** Función de costo
-  *  
+/** Clase para modelar la función de costo
+  * En realidad tiene otros usos también (factibilidad y desconexiones)
   * 
+  * @param tsp la instancia ya inicializada de un problema TSP
+  * @param constante la constante por la que se multiplica el AVG
   */
 
 class FuncionDeCosto(val tsp: TSPInstance, val constante: Double) extends FitFun{
+
   def eval(s: Array[Int]): Double = {
     var suma = 0.0
     for (i <- 0 to s.size-2)

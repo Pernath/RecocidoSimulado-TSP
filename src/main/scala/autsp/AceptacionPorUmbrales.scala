@@ -6,11 +6,18 @@ import hoc.{Temperatura => Temp}
 import hoc.{Lote => L}
 
 /** Clase para modelar la implementación del recocido simulado
-  * 
+  * @param temperatura un objeto de temperatura con la inicial
+  * @param lote un objeto de lote con su carga definida
+  * @param sActual la solución aceptada hasta el momento
+  * @param cTerminacion la condición de terminación
+  * @param epsilon el valor mínimo de la temperatura
+  * @param vZero el cero virtual para el equilibrio térmico
+  * @param genVer un GeneradorVerificador con la instancia TSP 
+  * y la función de costo
   * 
   */
 class AceptacionPorUmbrales(var temperatura: Temp, var lote: L, var sActual: Solucion, val cTerminacion: CondicionDeTerminacion, val epsilon: Double, val vZero: Double, val genVer: GeneradorVerificador) extends RecocidoSimulado{
-
+  
   def calculaLote(): Double ={
     var c = 0
     var r = 0.0
