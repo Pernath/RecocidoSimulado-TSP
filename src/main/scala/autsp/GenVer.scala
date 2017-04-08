@@ -5,9 +5,18 @@ import hoc.FitFun
 import scala.util.Random
 import scala.collection.mutable.ListBuffer
 
+/** Clase para implementar el trait GeneradorVerificador
+  * 
+  * @param seedN la semilla para el PRNG de la función vecino
+  * @param seedI la semilla para el PRNG de la solucion aleatoria
+  * @param func la función de costo
+  * @param lista la lista de ciudades de la instancia de TSP
+  */
 class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[Int]) extends GV{
+  //Inicialización de los PRNG
   val r = new Random(seedN)
   val s = new Random(seedI)
+
 
   def vecino(s: Array[Int]): Solucion = {
     var idx = r.nextInt(s.length)
@@ -20,7 +29,8 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
     return new Camino(s,evalua(s))
   }
 
-  //debe salir ya evaluada
+
+
   def randomSol(): Solucion = {
     var toTake = new ListBuffer[Int]()
     lista.copyToBuffer(toTake)

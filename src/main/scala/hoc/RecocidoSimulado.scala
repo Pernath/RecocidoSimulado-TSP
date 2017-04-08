@@ -1,38 +1,28 @@
 package hoc
 
+/** Trait (interfaz simil) para modelar el recocido simulado
+  * 
+  */
 trait RecocidoSimulado{
-  var temperatura: Temperatura
+  var temperatura: Temperatura 
   var lote: Lote
   var sActual: Solucion
-  var mejorS: Solucion = genVer.randomSol
+  var mejorS: Solucion = genVer.instanceSol
   val cTerminacion: CondicionDeTerminacion
   val epsilon: Double
   val vZero: Double
   val genVer: GeneradorVerificador
 
 
-  def calculaLote(): (Double, Solucion) ={
+  /** Método para calcular el lote en una ejecución del Recocido
+    * @return una tupla con la solución actual y el promedio de las 
+    * soluciones aceptadas
+    */
+  def calculaLote(): Double
 
-    var c = 0
-    var r = 0.0
-    while(c < lote.carga && cTerminacion.continua) {
-      var sVecina: Solucion = genVer.vecino(sActual.getValor)
-
-      if(sVecina.fitness <= sActual.fitness + temperatura.temperatura){
-        lote.add()
-        sActual = sVecina
-        if(sActual.fitness < mejorS.fitness){
-          mejorS.valor = sActual.getValor
-          mejorS.fitness = genVer.evalua(mejorS.valor)
-        }
-        c += 1
-        r += sVecina.fitness
-      } else
-          cTerminacion.progress()
-    }
-    return (r/lote.soluciones,sActual)
-  }
-
+  /** Método para realizar una ejecución del Recocido Simulado
+    * 
+    */
   def run()
   
 }

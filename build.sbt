@@ -5,5 +5,6 @@ lazy val root = (project in file("."))
     name := "Prueba",
     scalaVersion := "2.12.1",
     libraryDependencies += scalaTest % Test,
-    retrieveManaged := true	
+    retrieveManaged := true,
+    assemblyJarName in assembly := "AUTSP.jar"
   )

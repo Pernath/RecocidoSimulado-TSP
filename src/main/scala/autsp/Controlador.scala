@@ -32,6 +32,13 @@ class Controlador(var lista: List[Int]){
     conexion.cierra()
     println("MAXIMA DISTANCIA: "+maxD)
     println("AVG: "+total/edges)
+/*    for(i <- 0 to lista.size-1){
+      println("\n")
+      for(j <- 0 to lista.size-1){
+        print(matriz(i)(j)+", ")
+      }
+
+    }*/
     //tsp = new TSPInstance(matriz,maxD,total/lista.size)
     tsp = new TSPInstance(matriz,maxD,total/edges)
   }
@@ -52,35 +59,33 @@ class Controlador(var lista: List[Int]){
   }
 
   def exec(s: Int, t:Double, phi: Double, lot: Int, e: Double, v: Double, c: Double){
-    for(i <- 0 to 100){
-      var temperatura = new Temperatura(t,phi)
-      var lote = new Lote(lot)
-      val fun = new FuncionDeCosto(tsp,c)
-      //var genVer = new GenVer(3,3,fun, lista)
-      var maxFail = new MaximoFallidos(lot*lot)
-      var epsilon = e
-      var vZero = v //epsilon p
-      var genVer:GenVer = null
-      if(s == -1)
-        genVer = new GenVer(i,i,fun,lista)
-      else
-        genVer = new GenVer(s,s,fun,lista)
-      //var inicial = genVer.randomSol
-      var inicial = genVer.instanceSol
-      for(i <- 0 to 10)
-        inicial = genVer.vecino(inicial.getValor)
-      //println("INICIAL: "+inicial + " fitness: "+inicial.fitness)
-      var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, epsilon, vZero, genVer)
-      autsp.run
-      val factible = genVer.factible(autsp.mejorS)
-      println("Semilla: "+genVer.seedN)
-      println("fitness: "+autsp.mejorS.fitness)
-      println("Factibilidad: "+factible)
-      println("Desconexiones: "+genVer.desconexiones(autsp.mejorS)+"\n")
-      if(factible){
-        println(autsp.mejorS)
-        //return
-      }
+    //for(i <- 0 to 100){
+    var temperatura = new Temperatura(t,phi)
+    var lote = new Lote(lot)
+    val fun = new FuncionDeCosto(tsp,c)
+    //var genVer = new GenVer(3,3,fun, lista)
+    var maxFail = new MaximoFallidos(lot*lot)
+    var genVer:GenVer = null
+    /*if(s == -1)
+      genVer = new GenVer(i,i,fun,lista)
+    else*/
+      genVer = new GenVer(s,s,fun,lista)
+    //var inicial = genVer.randomSol
+    var inicial = genVer.instanceSol
+    for(i <- 0 to 10)
+      inicial = genVer.vecino(inicial.getValor)
+    //println("INICIAL: "+inicial + " fitness: "+inicial.fitness)
+    var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, e, v, genVer)
+    autsp.run
+    val factible = genVer.factible(autsp.mejorS)
+    println("Semilla: "+genVer.seedN)
+    println("fitness: "+autsp.mejorS.fitness)
+    println("Factibilidad: "+factible)
+    println("Desconexiones: "+genVer.desconexiones(autsp.mejorS)+"\n")
+    if(factible){
+      println(autsp.mejorS)
+      //return
     }
-  }    
+//    }
+  }
 }
