@@ -21,11 +21,14 @@ class AceptacionPorUmbrales(var temperatura: Temp, var lote: L, var sActual: Sol
   def calculaLote(): Double ={
     var c = 0
     var r = 0.0
-    while(c < lote.carga && cTerminacion.continua) {
+    while(c < lote.carga) {
       var sVecina: Solucion = genVer.vecino(sActual.getValor)
-      if(sVecina.fitness<= (sActual.fitness + temperatura.temperatura)){
+      if(sVecina.fitness<= (sActual.fitness + temperatura.temperatura)
+        && cTerminacion.continua){
         //lote.add()
         sActual = sVecina
+        print(sActual.fitness+" ")
+        print(temperatura.temperatura+"\n")
         c += 1
         r += sVecina.fitness
         if(sActual.fitness < mejorS.fitness){
@@ -44,7 +47,6 @@ class AceptacionPorUmbrales(var temperatura: Temp, var lote: L, var sActual: Sol
     while(temperatura.temperatura > epsilon){
       var pprime:Double = 0      
       while(Math.abs(p-pprime) > vZero){
-        println(mejorS.fitness)
         pprime = p
         p = calculaLote()
       }
