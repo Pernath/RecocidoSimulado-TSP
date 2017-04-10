@@ -5,7 +5,7 @@ import autsp._
   * @param l la lista con los índices del subconjunto de ciudades 
   * (en orden)
   */
-class Controlador(var lista: List[Int]){
+class Controlador(var lista: List[Int], val write: Boolean){
   var tsp: TSPInstance = genInstance() //la instancia de tsp que generaremos
 
   /** Función para generar la instancia de TSP 
@@ -21,6 +21,10 @@ class Controlador(var lista: List[Int]){
     var maxD = 0.0
     var total = 0.0 //distancia total
     var edges = 0
+    if(conexion.resultSet == null){
+      println("No es posible generar la instancia de TSP.")
+      return null
+    }
     var tuple = conexion.getRowFromResults
     while(tuple != null){
       var t = tuple._3      
@@ -71,6 +75,10 @@ class Controlador(var lista: List[Int]){
     * @param c constante de la función de costo
     */
   def exec(s: Int, t:Double, phi: Double, lot: Int, e: Double, v: Double, c: Double){
+    if(tsp == null)
+      return
+    if(write)
+      println("\nHa elegido el modo Write.\nLas soluciones aceptadas se guardarán en doc/graficas/gnuplot/exec.txt\n")
     var temperatura = new Temperatura(t,phi)
     var lote = new Lote(lot)
     val fun = new FuncionDeCosto(tsp,c)
@@ -81,14 +89,18 @@ class Controlador(var lista: List[Int]){
     for(i <- 0 to 10)
       inicial = genVer.vecino(inicial.getValor)
     var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, e, v, genVer)
+    autsp.write = this.write
+    autsp.init()
     autsp.run
+    println("\nEjecución terminada.")
+    println("Mejor solución: ")
     val factible = genVer.factible(autsp.mejorS)
     println("Semilla: "+genVer.seedN)
-    println("fitness: "+autsp.mejorS.fitness)
-    println("Factibilidad: "+factible)
-    println("Desconexiones: "+genVer.desconexiones(autsp.mejorS)+"\n")
-    if(factible){
+    println("Evaluación: "+autsp.mejorS.fitness)
+    println("Desconexiones: "+genVer.desconexiones(autsp.mejorS))
+    println("Factibilidad: "+factible+"\n")
+    if(factible)
       println(autsp.mejorS)
-    }
   }
+
 }

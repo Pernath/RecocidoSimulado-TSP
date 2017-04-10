@@ -21,7 +21,8 @@ class Conexion(driver: String, url: String) {
     try{
       conn = DriverManager.getConnection(url)
     } catch {
-      case e: SQLException => println(e.getMessage)
+      case e: SQLException =>
+        println(e.getMessage)
     }
   }
 
@@ -62,8 +63,17 @@ class Conexion(driver: String, url: String) {
     */
   def setResults(q: String) {
     abre()
-    val statement = conn.createStatement()
-    resultSet = statement.executeQuery(q)
+    try{
+      print("Abriendo conexión con "+url+"...")
+      val statement = conn.createStatement()
+      resultSet = statement.executeQuery(q)
+      print(" Éxito.\n")
+    } catch {
+      case e: SQLException =>
+        print(" Error.\n")
+        println(e.getMessage)
+        return
+    }
   }
 
   /** Función para obtener una 3-tupla con los id's de dos ciudades

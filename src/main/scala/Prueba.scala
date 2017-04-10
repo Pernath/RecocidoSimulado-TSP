@@ -45,7 +45,7 @@ object Prueba {
       println("Error en el archivo de configuración."+fileHelp)
       return
     }
-    val cont = new Controlador(tupleConf._1)    
+    val cont = new Controlador(tupleConf._1, args.length > 1 && args(1) == "w")    
     var l = tupleConf._2
     var s = l(0).toInt
     var t = l(1)
