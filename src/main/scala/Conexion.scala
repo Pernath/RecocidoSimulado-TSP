@@ -53,7 +53,7 @@ class Conexion(driver: String, url: String) {
   def cierra(){
     if (conn != null) {
       conn.close()
-      println("Conexión finalizada")
+      //println("Conexión finalizada")
     }
   }
 
@@ -64,10 +64,10 @@ class Conexion(driver: String, url: String) {
   def setResults(q: String) {
     abre()
     try{
-      print("Abriendo conexión con "+url+"...")
+      //print("Abriendo conexión con "+url+"...")
       val statement = conn.createStatement()
       resultSet = statement.executeQuery(q)
-      print(" Éxito.\n")
+      //print(" Éxito.\n")
     } catch {
       case e: SQLException =>
         print(" Error.\n")

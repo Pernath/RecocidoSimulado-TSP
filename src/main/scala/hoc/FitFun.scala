@@ -1,10 +1,12 @@
 package hoc
 
+import autsp.TSPInstance
+
 /** Trait para la función de costo
   * 
   */
 trait FitFun{
-
+  val tsp: TSPInstance
   /** Función para evaluar una solución
     * @param la solución a evaluar
     * @return el costo de la solución
@@ -24,4 +26,7 @@ trait FitFun{
     * @return el número de aristas inexistentes en el camino
     */
   def desconexiones(s: Array[Int]): Int
+
+
+  def distancia(id1: Int, id2: Int): Double
 }

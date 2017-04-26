@@ -39,8 +39,10 @@ class Controlador(var lista: List[Int], val write: Boolean){
       tuple = conexion.getRowFromResults()
     }
     conexion.cierra()
+    /*
     println("MAXIMA DISTANCIA: "+maxD)
     println("AVG: "+total/edges)
+     */
     return new TSPInstance(matriz,maxD,total/edges)
   }
 
@@ -87,17 +89,19 @@ class Controlador(var lista: List[Int], val write: Boolean){
     var inicial = genVer.instanceSol
     //algo así como un shuffle
     for(i <- 0 to 10)
-      inicial = genVer.vecino(inicial.getValor)
+      inicial = genVer.vecino(inicial.getValor,inicial.distancia)
     var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, e, v, genVer)
+    /*
     autsp.write = this.write
     autsp.init()
+     */
     autsp.run
-    println("\nEjecución terminada.")
-    println("Mejor solución: ")
+    //println("\nEjecución terminada.")
+    //println("Mejor solución: ")
     val factible = genVer.factible(autsp.mejorS)
-    println("Semilla: "+genVer.seedN)
+    //println("Semilla: "+genVer.seedN)
     println("Evaluación: "+autsp.mejorS.fitness)
-    println("Desconexiones: "+genVer.desconexiones(autsp.mejorS))
+    //println("Desconexiones: "+genVer.desconexiones(autsp.mejorS))
     println("Factibilidad: "+factible+"\n")
     if(factible)
       println(autsp.mejorS)

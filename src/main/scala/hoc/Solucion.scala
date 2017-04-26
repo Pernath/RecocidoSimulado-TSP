@@ -7,6 +7,7 @@ package hoc
 trait Solucion extends Ordered[Solucion]{
   var fitness: Double
   var valor: Array[Int]
+  var distancia: Double
 
   /** Para evitar paso por referencia en las llamadas al valor,
     * se utiliza un objeto distinto con la misma información

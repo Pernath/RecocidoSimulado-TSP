@@ -16,15 +16,15 @@ trait GeneradorVerificador{
     * @param s la solución de la que queremos un vecino
     * @return la solución vecina de s
     */
-  def vecino(s: Array[Int]): Solucion
+  def vecino(s: Array[Int], f: Double): Solucion
 
 
   /** Función que devuelve una solución aleatoria
     * 
     * @return la solucion aleatoria
-    */
+    *
   def randomSol(): Solucion
-
+    */
   /** Función que devuelve una solución igual a la instancia TSP
     * 
     * @return la solucion instancia

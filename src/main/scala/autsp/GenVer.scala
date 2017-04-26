@@ -17,17 +17,43 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
   val r = new Random(seedN) /** Inicialización del RNG con la semilla*/
   val s = new Random(seedI) /** Inicialización del RNG con la semilla*/
 
-  def vecino(s: Array[Int]): Solucion = {
+  def vecino(s: Array[Int], f: Double): Solucion = {
     var idx = r.nextInt(s.length)
     var idx2 = r.nextInt(s.length)
     while(idx == idx2)
       idx2 = r.nextInt(s.length)
+
+    val mayor = if (idx > idx2) idx else idx2
+    val menor = (idx+idx2) - mayor
+
+    var distancia = f
+    if(mayor - menor > 1){
+      distancia -= func.distancia(s(menor),s(menor+1))
+      distancia -= func.distancia(s(mayor),s(mayor-1))
+
+      distancia += func.distancia(s(mayor),s(menor+1))
+      distancia += func.distancia(s(mayor-1),s(menor))
+
+    }
+    if(mayor < s.length - 1){
+      distancia -= func.distancia(s(mayor),s(mayor+1))
+
+      distancia += func.distancia(s(menor), s(mayor+1))
+    }
+    if(menor > 0){
+      distancia -= func.distancia(s(menor),s(menor-1))
+
+      distancia += func.distancia(s(menor-1),s(mayor))
+    }
     var temp = s(idx)
     s(idx) = s(idx2)
     s(idx2) = temp
-    return new Camino(s,evalua(s))
+    //return new Camino(s,evalua(s))
+    
+    return new Camino(s,distancia/(func.tsp.promedio*(s.length-1)),distancia)
   }
 
+  /*
   def randomSol(): Solucion = {
     var toTake = new ListBuffer[Int]()
     lista.copyToBuffer(toTake)
@@ -35,13 +61,14 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
     for (i <- 0 to toTake.size-1)
       a(i) = toTake.remove(s.nextInt(toTake.size))    
     return new Camino(a,evalua(a))
-  }
+  }*/
 
   def instanceSol(): Solucion = {
     var out = new Array[Int](lista.size)   
     for (i <- 0 to lista.size-1)
       out(i) = lista(i)
-    return new Camino(out,evalua(out))
+    var evaluacion = evalua(out)
+    return new Camino(out,evaluacion,evaluacion*(func.tsp.promedio*(out.length-1)))
   }
 
 }
