@@ -26,7 +26,7 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
     val mayor = if (idx > idx2) idx else idx2
     val menor = (idx+idx2) - mayor
 
-    var distancia = f
+    var distancia = f*(func.tsp.promedio*(s.length-1))
     if(mayor - menor > 1){
       distancia -= func.distancia(s(menor),s(menor+1))
       distancia -= func.distancia(s(mayor),s(mayor-1))
@@ -50,7 +50,7 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
     s(idx2) = temp
     //return new Camino(s,evalua(s))
     
-    return new Camino(s,distancia/(func.tsp.promedio*(s.length-1)),distancia)
+    return new Camino(s,distancia/(func.tsp.promedio*(s.length-1)))
   }
 
   /*
@@ -67,8 +67,7 @@ class GenVer(val seedN: Int, val seedI: Int, val func: FitFun, val lista:List[In
     var out = new Array[Int](lista.size)   
     for (i <- 0 to lista.size-1)
       out(i) = lista(i)
-    var evaluacion = evalua(out)
-    return new Camino(out,evaluacion,evaluacion*(func.tsp.promedio*(out.length-1)))
+    return new Camino(out,evalua(out))
   }
 
 }

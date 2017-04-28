@@ -89,7 +89,7 @@ class Controlador(var lista: List[Int], val write: Boolean){
     var inicial = genVer.instanceSol
     //algo así como un shuffle
     for(i <- 0 to 10)
-      inicial = genVer.vecino(inicial.getValor,inicial.distancia)
+      inicial = genVer.vecino(inicial.getValor,inicial.fitness)
     var autsp = new AceptacionPorUmbrales(temperatura, lote, inicial, maxFail, e, v, genVer)
     /*
     autsp.write = this.write

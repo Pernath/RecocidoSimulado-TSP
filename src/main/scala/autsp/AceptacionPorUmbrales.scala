@@ -29,7 +29,7 @@ class AceptacionPorUmbrales(var temperatura: Temp, var lote: L, var sActual: Sol
     var c = 0
     var r = 0.0
     while(c < lote.carga) {
-      var sVecina: Solucion = genVer.vecino(sActual.getValor,sActual.distancia)
+      var sVecina: Solucion = genVer.vecino(sActual.getValor,sActual.fitness)
       if(sVecina.fitness<= (sActual.fitness + temperatura.temperatura)
         && cTerminacion.continua){
         sActual = sVecina
